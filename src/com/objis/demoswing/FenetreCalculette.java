@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class FenetreCalculette  extends JFrame{
+public class FenetreCalculette extends JFrame{
 	
 	  private JPanel container = new JPanel();
 	  //Tableau stockant les éléments à afficher dans la calculatrice
@@ -22,8 +22,10 @@ public class FenetreCalculette  extends JFrame{
 	  private Dimension dim = new Dimension(50, 40);
 	  private Dimension dim2 = new Dimension(50, 31);
 	  private double chiffre1;
+	  private double chiffre2;
 	  private boolean clicOperateur = false, update = false;
 	  private String operateur = "";
+	  
 	  
 	  public FenetreCalculette(){
 	    this.setSize(240, 260);
@@ -72,22 +74,22 @@ public class FenetreCalculette  extends JFrame{
 	          operateur.add(tab_button[i]);
 	          break;
 	        case 13 :
-	          tab_button[i].addActionListener(new PlusListener());
+	          tab_button[i].addActionListener(new AdditionListener());
 	          tab_button[i].setPreferredSize(dim2);
 	          operateur.add(tab_button[i]);
 	          break;
 	        case 14 :
-	          tab_button[i].addActionListener(new MoinsListener());
+	          tab_button[i].addActionListener(new SoustractionListener());
 	          tab_button[i].setPreferredSize(dim2);
 	          operateur.add(tab_button[i]);
 	          break;	
 	        case 15 :	
-	          tab_button[i].addActionListener(new MultiListener());
+	          tab_button[i].addActionListener(new MultiplicationListener());
 	          tab_button[i].setPreferredSize(dim2);
 	          operateur.add(tab_button[i]);
 	          break;
 	        case 16 :
-	          tab_button[i].addActionListener(new DivListener());
+	          tab_button[i].addActionListener(new DivisionListener());
 	          tab_button[i].setPreferredSize(dim2);
 	          operateur.add(tab_button[i]);
 	          break;
@@ -105,33 +107,53 @@ public class FenetreCalculette  extends JFrame{
 	    container.add(chiffre, BorderLayout.CENTER);
 	    container.add(operateur, BorderLayout.EAST);
 	  }
-
+	  
 	  //Méthode permettant d'effectuer un calcul selon l'opérateur sélectionné
-	  private void calcul(){
-	    if(operateur.equals("+")){
-	      chiffre1 = chiffre1 + 
-	            Double.valueOf(ecran.getText()).doubleValue();
-	      ecran.setText(String.valueOf(chiffre1));
-	    }
-	    if(operateur.equals("-")){
-	      chiffre1 = chiffre1 - 
-	            Double.valueOf(ecran.getText()).doubleValue();
-	      ecran.setText(String.valueOf(chiffre1));
-	    }          
-	    if(operateur.equals("*")){
-	      chiffre1 = chiffre1 * 
-	            Double.valueOf(ecran.getText()).doubleValue();
-	      ecran.setText(String.valueOf(chiffre1));
-	    }     
-	    if(operateur.equals("/")){
-	      try{
-	        chiffre1 = chiffre1 / 
-	              Double.valueOf(ecran.getText()).doubleValue();
-	        ecran.setText(String.valueOf(chiffre1));
-	      } catch(ArithmeticException e) {
-	        ecran.setText("0");
-	      }
-	    }
+	  public static double Addition(double chiffre1, double chiffre2){
+		      double resultat = chiffre1 + 
+		    		  chiffre2;
+		      return resultat;
+			  }
+			  
+	  public static double Soustraction(double chiffre1, double chiffre2){
+				  double resultat = chiffre1 - 
+						  chiffre2;
+		      return resultat;
+		    } 
+	  public static double Multiplication(double chiffre1, double chiffre2){
+				  double resultat = chiffre1 * 
+						  chiffre2;
+			      return resultat;	      
+			  }
+	  public static double Division(double chiffre1, double chiffre2){
+				  double resultat = chiffre1 / 
+						  chiffre2;
+		        return resultat;
+		  }
+			  
+	  public void calcul(){
+		  chiffre2 = Double.valueOf(ecran.getText()).doubleValue();
+		    if(operateur.equals("+")){
+			      chiffre1 = Addition(chiffre1, chiffre2);
+			      ecran.setText(String.valueOf(chiffre1));
+			    }
+		    if(operateur.equals("-")){
+			      chiffre1 = Soustraction(chiffre1, chiffre2);
+			      ecran.setText(String.valueOf(chiffre1));
+			    }
+		    if(operateur.equals("*")){
+		    	chiffre1 = Multiplication(chiffre1, chiffre2);
+			    ecran.setText(String.valueOf(chiffre1));
+			    } 
+		    if(operateur.equals("/")){
+			      try{
+			    	  chiffre1 = Division(chiffre1, chiffre2);
+			    	  ecran.setText(String.valueOf(chiffre1));
+			      }
+			      catch(ArithmeticException e) {
+				        ecran.setText("0");
+				      }
+			  }
 	  }
 
 	  //Listener utilisé pour les chiffres
@@ -161,7 +183,7 @@ public class FenetreCalculette  extends JFrame{
 	  }
 
 	  //Listener affecté au bouton +
-	  class PlusListener implements ActionListener {
+	  class AdditionListener implements ActionListener {
 	    public void actionPerformed(ActionEvent arg0){
 	      if(clicOperateur){
 	        calcul();
@@ -177,7 +199,7 @@ public class FenetreCalculette  extends JFrame{
 	  }
 
 	  //Listener affecté au bouton -
-	  class MoinsListener implements ActionListener {
+	  class SoustractionListener implements ActionListener {
 	    public void actionPerformed(ActionEvent arg0){
 	      if(clicOperateur){
 	        calcul();
@@ -193,7 +215,7 @@ public class FenetreCalculette  extends JFrame{
 	  }
 
 	  //Listener affecté au bouton *
-	  class MultiListener implements ActionListener {
+	  class MultiplicationListener implements ActionListener {
 	    public void actionPerformed(ActionEvent arg0){
 	      if(clicOperateur){
 	        calcul();
@@ -209,7 +231,7 @@ public class FenetreCalculette  extends JFrame{
 	  }
 
 	  //Listener affecté au bouton /
-	  class DivListener implements ActionListener {
+	  class DivisionListener implements ActionListener {
 	    public void actionPerformed(ActionEvent arg0){
 	      if(clicOperateur){
 	        calcul();

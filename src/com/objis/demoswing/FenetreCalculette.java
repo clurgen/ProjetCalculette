@@ -28,7 +28,7 @@ public class FenetreCalculette extends JFrame{
 	  
 	  
 	  public FenetreCalculette(){
-	    this.setSize(240, 260);
+	    this.setSize(300, 320);
 	    this.setTitle("Calculette");
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
@@ -93,6 +93,11 @@ public class FenetreCalculette extends JFrame{
 	          tab_button[i].setPreferredSize(dim2);
 	          operateur.add(tab_button[i]);
 	          break;
+	        /*case 17 :
+		          tab_button[i].setForeground(Color.black);
+		          tab_button[i].addActionListener(new ResetLastNumberListener());
+		          operateur.add(tab_button[i]);
+		          break;*/
 	        default :
 	          //Par défaut, ce sont les premiers éléments du tableau
 	          //donc des chiffres, on affecte alors le bon listener
@@ -114,12 +119,11 @@ public class FenetreCalculette extends JFrame{
 		    		  chiffre2;
 		      return resultat;
 			  }
-			  
 	  public static double Soustraction(double chiffre1, double chiffre2){
 				  double resultat = chiffre1 - 
 						  chiffre2;
 		      return resultat;
-		    } 
+		      } 
 	  public static double Multiplication(double chiffre1, double chiffre2){
 				  double resultat = chiffre1 * 
 						  chiffre2;
@@ -129,7 +133,7 @@ public class FenetreCalculette extends JFrame{
 				  double resultat = chiffre1 / 
 						  chiffre2;
 		        return resultat;
-		  }
+		  	  }
 			  
 	  public void calcul(){
 		  chiffre2 = Double.valueOf(ecran.getText()).doubleValue();
@@ -255,6 +259,17 @@ public class FenetreCalculette extends JFrame{
 	      operateur = "";
 	      ecran.setText("");
 	    }
-	  }      
+	  }    
+	  
+	/*//Listener affecté au bouton de Suppression du dernier nombre
+	  class ResetLastNumberListener implements ActionListener{
+		  public void actionPerformed(ActionEvent arg0){
+		      clicOperateur = false;
+		      operateur = "";
+		      String nouveauNombre = (String)ecran.getText().subSequence(0, ecran.getText().length() - 1);
+		      ecran.setText(nouveauNombre);
+		      update = false;
+		  }
+	  }*/
 }
 
